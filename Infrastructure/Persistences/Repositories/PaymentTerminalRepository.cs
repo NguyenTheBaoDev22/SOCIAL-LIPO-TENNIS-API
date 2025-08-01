@@ -20,18 +20,11 @@ namespace Infrastructure.Persistences.Repositories
         }
         public async Task<bool> ExistsActiveSerialNumberAsync(string serialNumber)
         {
-            return await _context.PaymentTerminals
-                .AnyAsync(t => t.SerialNumber == serialNumber && !t.IsDeleted);
+            return false;
         }
         public async Task<PaymentTerminal?> FindByCodeAsync(Guid branchId, string terminalCode, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(terminalCode))
-                return null;
-
-            return await _context.PaymentTerminals
-                .AsNoTracking()
-                .Where(t => !t.IsDeleted && t.MerchantBranchId == branchId && t.TerminalCode == terminalCode)
-                .FirstOrDefaultAsync(cancellationToken);
+            return null;
         }
     }
 }

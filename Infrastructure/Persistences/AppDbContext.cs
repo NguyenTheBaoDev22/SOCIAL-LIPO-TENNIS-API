@@ -35,27 +35,20 @@ namespace Infrastructure.Persistences
         }
 
         // DbSets
-        public DbSet<ClientCredential> ClientCredentials => Set<ClientCredential>();
+        //public DbSet<ClientCredential> ClientCredentials => Set<ClientCredential>();
         public DbSet<SmsLog> SmsLogs => Set<SmsLog>();
         public DbSet<SmsRetryQueue> SmsRetryQueues => Set<SmsRetryQueue>();
         public DbSet<Province> Provinces => Set<Province>();
         public DbSet<Commune> Communes => Set<Commune>();
-        public DbSet<Merchant> Merchants => Set<Merchant>();
-        public DbSet<MerchantBranch> MerchantBranches => Set<MerchantBranch>();
-        public DbSet<PaymentTerminal> PaymentTerminals => Set<PaymentTerminal>();
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Permission> Permissions => Set<Permission>();
         public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
         public DbSet<UserRoleAssignment> UserRoleAssignments => Set<UserRoleAssignment>();
-        public DbSet<UserMerchant> UserMerchants => Set<UserMerchant>();
         public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<ProductImport> ProductImports => Set<ProductImport>();
         public DbSet<ShopProductInventory> ShopProductInventories => Set<ShopProductInventory>();
-        public DbSet<PartnerTransactionCallbackLog> PartnerTransactionCallbackLogs => Set<PartnerTransactionCallbackLog>();
-        public DbSet<PartnerMerchantStatusCallbackLog> PartnerMerchantStatusCallbackLogs => Set<PartnerMerchantStatusCallbackLog>();
-        public DbSet<PartnerOrder> PartnerOrders => Set<PartnerOrder>();
         public DbSet<ZaloAuthLog> ZaloAuthLogs => Set<ZaloAuthLog>();
         public DbSet<LarkEmailLog> LarkEmailLogs => Set<LarkEmailLog>();
         public DbSet<OtpCodeLog> OtpCodeLogs => Set<OtpCodeLog>();
@@ -71,11 +64,6 @@ namespace Infrastructure.Persistences
             modelBuilder.Entity<AuditLog>().Property(a => a.EntityId).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<AuditLog>().Property(a => a.ActionType).IsRequired().HasMaxLength(20);
             modelBuilder.Entity<AuditLog>().Property(a => a.Changes).HasColumnType("jsonb"); // nếu dùng PostgreSQL
-            // Lọc dữ liệu của từng tenant
-            modelBuilder.Entity<Merchant>().HasQueryFilter(x => x.TenantId == tenantId && !x.IsDeleted);
-            modelBuilder.Entity<MerchantBranch>().HasQueryFilter(x => x.Merchant.TenantId == tenantId && !x.IsDeleted);
-            modelBuilder.Entity<PaymentTerminal>().HasQueryFilter(x => x.Merchant.TenantId == tenantId && x.MerchantBranch.TenantId == tenantId && !x.IsDeleted);
-
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(Audit).IsAssignableFrom(entityType.ClrType))
@@ -117,19 +105,7 @@ namespace Infrastructure.Persistences
             modelBuilder.Entity<Commune>().Property(c => c.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Commune>().HasOne(c => c.Province).WithMany(p => p.Communes).HasForeignKey(c => c.ProvinceId).OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Merchant>().HasKey(e => e.Id);
-            modelBuilder.Entity<Merchant>().Property(e => e.SequenceNumber).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Merchant>().Property(e => e.MerchantCode).HasComputedColumnSql("ufn_generate_merchant_code(\"SequenceNumber\")", stored: true);
-            modelBuilder.Entity<Merchant>().HasIndex(m => m.BusinessRegistrationNo).IsUnique();
-            modelBuilder.Entity<Merchant>().HasIndex(m => m.MerchantCode).IsUnique();
-
-            modelBuilder.Entity<MerchantBranch>().HasKey(e => e.Id);
-            modelBuilder.Entity<MerchantBranch>().Property(e => e.SequenceNumber).ValueGeneratedOnAdd();
-            modelBuilder.Entity<MerchantBranch>().Property(e => e.MerchantBranchCode).HasComputedColumnSql("ufn_generate_merchant_branch_code(\"MerchantId\", \"SequenceNumber\")", stored: true);
-            modelBuilder.Entity<MerchantBranch>().HasIndex(mb => new { mb.MerchantCode, mb.MerchantBranchCode }).IsUnique();
-
-            modelBuilder.Entity<PaymentTerminal>().HasIndex(pt => new { pt.MerchantCode, pt.MerchantBranchCode, pt.TerminalCode }).IsUnique();
-
+           
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
 
@@ -166,21 +142,7 @@ namespace Infrastructure.Persistences
             modelBuilder.Entity<ShopProductInventory>().HasKey(ia => ia.Id);
             modelBuilder.Entity<ShopProductInventory>().HasOne(ia => ia.Product).WithMany(p => p.InventoryAudits).HasForeignKey(ia => ia.ProductId).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<PartnerOrder>().Property(p => p.Status).HasConversion<string>();
-            modelBuilder.Entity<PartnerOrder>().HasIndex(p => new { p.PartnerCode, p.OrderCode });
-
-            modelBuilder.Entity<PartnerMerchantStatusCallbackLog>().HasKey(p => p.Id);
-            modelBuilder.Entity<PartnerMerchantStatusCallbackLog>().Property(p => p.Status).HasConversion<string>().HasMaxLength(50);
-            modelBuilder.Entity<PartnerMerchantStatusCallbackLog>().Property(p => p.CallbackUrl).IsRequired().HasMaxLength(500);
-            modelBuilder.Entity<PartnerMerchantStatusCallbackLog>().Property(p => p.Payload).IsRequired();
-            modelBuilder.Entity<PartnerMerchantStatusCallbackLog>().Property(p => p.ResponseContent).HasMaxLength(5000);
-
-            modelBuilder.Entity<PartnerTransactionCallbackLog>().HasKey(p => p.Id);
-            modelBuilder.Entity<PartnerTransactionCallbackLog>().Property(p => p.Status).HasConversion<string>().HasMaxLength(50);
-            modelBuilder.Entity<PartnerTransactionCallbackLog>().Property(p => p.CallbackUrl).IsRequired().HasMaxLength(500);
-            modelBuilder.Entity<PartnerTransactionCallbackLog>().Property(p => p.Payload).IsRequired();
-            modelBuilder.Entity<PartnerTransactionCallbackLog>().Property(p => p.ResponseContent).HasMaxLength(5000);
-            modelBuilder.Entity<PartnerTransactionCallbackLog>().HasIndex(p => p.PartnerOrderId);
+            
 
             modelBuilder.Entity<ZaloAuthLog>().HasKey(z => z.Id);
             modelBuilder.Entity<ZaloAuthLog>().Property(z => z.TraceId).IsRequired().HasMaxLength(100);

@@ -34,9 +34,10 @@ namespace Infrastructure.Persistences.Repositories.Partners
         /// </summary>
         public async Task<PartnerOrder?> GetByTransactionIdAsync(string transactionId, CancellationToken cancellationToken = default)
         {
-            return await _context.PartnerOrders
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.TransactionId == transactionId && !x.IsDeleted, cancellationToken);
+            //return await _context.PartnerOrders
+            //    .AsNoTracking()
+            //    .FirstOrDefaultAsync(x => x.TransactionId == transactionId && !x.IsDeleted, cancellationToken);
+            return null;
         }
     }
 }

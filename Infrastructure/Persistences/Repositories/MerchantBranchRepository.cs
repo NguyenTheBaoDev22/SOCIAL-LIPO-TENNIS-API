@@ -22,11 +22,12 @@ namespace Infrastructure.Persistences.Repositories
         // Phương thức mới để lấy MerchantBranch và Merchant cùng lúc (eager loading)
         public async Task<MerchantBranch> GetWithMerchantByIdAsync(Guid merchantBranchId)
         {
+            return null;
             // Eager load Merchant khi truy vấn MerchantBranch
-            return await _context.MerchantBranches
-                .Include(b => b.Merchant)  // Eager load Merchant
-                 .Include(b => b.Terminals) // ✅ Thêm dòng này để load danh sách thiết bị
-                .FirstOrDefaultAsync(b => b.Id == merchantBranchId);
+            //return await _context.MerchantBranches
+            //    .Include(b => b.Merchant)  // Eager load Merchant
+            //     .Include(b => b.Terminals) // ✅ Thêm dòng này để load danh sách thiết bị
+            //    .FirstOrDefaultAsync(b => b.Id == merchantBranchId);
         }
 
         public async Task<bool> ExistsByBranchTaxNumberAsync(string branchTaxNumber)
@@ -34,20 +35,13 @@ namespace Infrastructure.Persistences.Repositories
             if (string.IsNullOrWhiteSpace(branchTaxNumber))
                 return false;
 
-            return await _context.MerchantBranches
-                .AnyAsync(b => b.BranchTaxNumber == branchTaxNumber);
+            //return await _context.MerchantBranches
+            //    .AnyAsync(b => b.BranchTaxNumber == branchTaxNumber);
+            return false;
         }
         public async Task<MerchantBranch?> FindByCodeAsync(Guid merchantId, string branchCode, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(branchCode))
-
-
-                return null;
-
-            return await _context.MerchantBranches
-                .AsNoTracking()
-                .Where(b => !b.IsDeleted && b.MerchantId == merchantId && b.MerchantBranchCode == branchCode)
-                .FirstOrDefaultAsync(cancellationToken);
+            return null;
         }
     }
 }

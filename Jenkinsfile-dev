@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "lipo-api"
+        CONTAINER_NAME = "lipo-api"
+        HOSTNAME = "lipo-api"
+        NETWORK = "nginx-proxy-manager_default"
+    }
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Kiểm tra sự tồn tại của Dockerfile
+                    sh 'test -f Dockerfile || (echo "Dockerfile not found!" && exit 1)'
+
+                    // Lệnh build Docker image và kiểm tra lỗi
+                    sh 'docker build -t ${IMAGE_NAME}:latest . || { echo "Build failed!"; exit 1; }'
+                }
+            }
+        }
+
+        stage('Remove old container') {
+            steps {
+                script {
+                    // Kiểm tra container cũ và xóa nếu tồn tại
+                    sh """
+                        docker ps -a -q -f name=${CONTAINER_NAME} | xargs -r docker rm -f
+                    """
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                script {
+                    // Lệnh run container mà không expose cổng, kết nối vào mạng Docker
+                    sh """
+                        docker run -d \\
+                            --name ${CONTAINER_NAME} \\
+                            --hostname ${HOSTNAME} \\
+                            --network ${NETWORK} \\
+                            -e ASPNETCORE_ENVIRONMENT=Development \\
+                            ${IMAGE_NAME}:latest
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Cleanup nếu cần (xóa các container không còn sử dụng nữa)
+            sh "docker system prune -f"
+        }
+    }
+}
