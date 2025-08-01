@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34227.203
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{1B4752C2-ED4C-4E14-A30A-4F74F79FC258}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Applications", "Applications\Applications.csproj", "{E4517486-4117-4AE2-886A-84E6BE7985C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{D78192B3-F6FA-4151-B4D1-1874E8CC165D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5AB697FC-61CA-424E-8E5F-877C5882D7AF}"
+	ProjectSection(SolutionItems) = preProject
+		AI Promt.txt = AI Promt.txt
+		Backlog.txt = Backlog.txt
+		Callback Audit Reconciliation Template.txt = Callback Audit Reconciliation Template.txt
+		Chức năng hệ thống.txt = Chức năng hệ thống.txt
+		Mô tả cấu trúc.txt = Mô tả cấu trúc.txt
+		Phác thảo lưu trình.txt = Phác thảo lưu trình.txt
+		ProvinceData.txt = ProvinceData.txt
+		Quy định tạo code Merchant.txt = Quy định tạo code Merchant.txt
+		Signature Filter Template.txt = Signature Filter Template.txt
+		srs_document_updated v1.0.2 07-07-2025 = srs_document_updated v1.0.2 07-07-2025
+		TraceId Mermaid Sequence Diagram .txt = TraceId Mermaid Sequence Diagram .txt
+		traceid-flow-zenpay.md = traceid-flow-zenpay.md
+		Transactions Feature Template.txt = Transactions Feature Template.txt
+		Yêu cầu Hạ tầng Kubernetes (RKE2) cho Hệ thống Thương mại Điện tử.txt = Yêu cầu Hạ tầng Kubernetes (RKE2) cho Hệ thống Thương mại Điện tử.txt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{8666A2EE-D905-4697-847F-A244882D97DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{45C1B04D-7E8D-44FB-8784-BA56BF8A6578}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B4752C2-ED4C-4E14-A30A-4F74F79FC258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4752C2-ED4C-4E14-A30A-4F74F79FC258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B4752C2-ED4C-4E14-A30A-4F74F79FC258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B4752C2-ED4C-4E14-A30A-4F74F79FC258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4517486-4117-4AE2-886A-84E6BE7985C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4517486-4117-4AE2-886A-84E6BE7985C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4517486-4117-4AE2-886A-84E6BE7985C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4517486-4117-4AE2-886A-84E6BE7985C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D78192B3-F6FA-4151-B4D1-1874E8CC165D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D78192B3-F6FA-4151-B4D1-1874E8CC165D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D78192B3-F6FA-4151-B4D1-1874E8CC165D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D78192B3-F6FA-4151-B4D1-1874E8CC165D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8666A2EE-D905-4697-847F-A244882D97DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8666A2EE-D905-4697-847F-A244882D97DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8666A2EE-D905-4697-847F-A244882D97DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8666A2EE-D905-4697-847F-A244882D97DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C1B04D-7E8D-44FB-8784-BA56BF8A6578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C1B04D-7E8D-44FB-8784-BA56BF8A6578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C1B04D-7E8D-44FB-8784-BA56BF8A6578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C1B04D-7E8D-44FB-8784-BA56BF8A6578}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2868D76B-EECA-4568-95EC-14F930F2A6FE}
+	EndGlobalSection
+EndGlobal
